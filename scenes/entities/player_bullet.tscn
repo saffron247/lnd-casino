@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm6kf1231vc84"]
+
+[ext_resource type="Script" uid="uid://d86drj03eei7" path="res://scripts/entities/player_bullet.gd" id="1_4p4uo"]
+[ext_resource type="Texture2D" uid="uid://bh8qqmrlf16sr" path="res://assets/attacks/player_bullet.png" id="1_hxh8y"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4p4uo"]
+size = Vector2(8, 4)
+
+[node name="PlayerBullet" type="Area2D"]
+collision_layer = 32
+collision_mask = 17
+script = ExtResource("1_4p4uo")
+
+[node name="HurtBox" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4p4uo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hxh8y")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
