@@ -3,10 +3,8 @@
 [ext_resource type="Script" uid="uid://8ktjscpgv403" path="res://scripts/entities/enemy.gd" id="1_d7j71"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67neu"]
-size = Vector2(6, 5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktqfp"]
-size = Vector2(6, 12)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d7j71"]
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 8
@@ -22,7 +20,7 @@ collision_layer = 16
 collision_mask = 32
 
 [node name="HitBox" type="CollisionShape2D" parent="HitArea"]
-shape = SubResource("RectangleShape2D_ktqfp")
+shape = SubResource("RectangleShape2D_d7j71")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 region_enabled = true
@@ -42,4 +40,5 @@ wait_time = 0.2
 one_shot = true
 
 [connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
 [connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]

@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://ib5dvjc06o27"]
+
+[ext_resource type="PackedScene" uid="uid://dgpqdl4egayjr" path="res://scenes/entities/enemy.tscn" id="1_6rjfe"]
+[ext_resource type="Script" uid="uid://yxghhm3go70" path="res://scripts/entities/enemies/enemy_crapshoot.gd" id="2_sbfi8"]
+[ext_resource type="Texture2D" uid="uid://c828fip2lueom" path="res://assets/entities/enemies/crapshoot.png" id="3_x5hl5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5hl5"]
+size = Vector2(12, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1h4fm"]
+size = Vector2(12, 14)
+
+[node name="EnemyCrapshoot" instance=ExtResource("1_6rjfe")]
+script = ExtResource("2_sbfi8")
+
+[node name="CollisionBox" parent="." index="0"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_x5hl5")
+
+[node name="HitBox" parent="HitArea" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_1h4fm")
+
+[node name="Sprite2D" parent="." index="2"]
+scale = Vector2(-1, 1)
+texture = ExtResource("3_x5hl5")
+region_rect = Rect2(0, 0, 20, 20)
+
+[node name="ShootTimer" type="Timer" parent="." index="6"]
+process_callback = 0
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

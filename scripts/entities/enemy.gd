@@ -2,6 +2,10 @@ class_name Enemy
 extends CharacterBody2D
 
 
+# PRELOADED SCENES
+const BulletScene = preload("res://scenes/entities/enemy_bullet.tscn")
+
+
 # VARIABLES
 var target : Player  ## Target of the enemy's attacks.
 
@@ -42,14 +46,17 @@ func _physics_process(_delta):
 	
 	internal_routine()
 	
-	update_facing(position.direction_to(target.position))
-	
 	move_and_slide()
 
 
 # ACTION METHODS
 func die():
 	queue_free()
+
+
+func halt() -> void:
+	velocity = Vector2.ZERO
+	$NavigationAgent2D.velocity = Vector2.ZERO
 
 
 # HELPER METHODS
@@ -80,7 +87,7 @@ func set_movement_target(movement_target: Vector2):
 	$NavigationAgent2D.target_position = movement_target
 
 
-# SIGNAL METHODS
+# REACTION SIGNALS
 func _on_hit_area_area_entered(area: Area2D) -> void:
 	if area is PlayerBullet:
 		health -= area.damage
@@ -94,3 +101,8 @@ func _on_hit_area_area_entered(area: Area2D) -> void:
 
 func _on_hit_timer_timeout() -> void:
 	$Sprite2D.region_rect.position.y = 0
+
+
+# NAVIGATION SIGNALS
+func _on_navigation_agent_2d_velocity_computed(safe_velocity):
+	velocity = safe_velocity

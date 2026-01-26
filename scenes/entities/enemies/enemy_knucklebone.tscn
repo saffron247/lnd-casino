@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcnfv12cv6o7p"]
+[gd_scene load_steps=6 format=3 uid="uid://dcnfv12cv6o7p"]
 
 [ext_resource type="PackedScene" uid="uid://dgpqdl4egayjr" path="res://scenes/entities/enemy.tscn" id="1_wokti"]
 [ext_resource type="Script" uid="uid://cb6jbv52grk6w" path="res://scripts/entities/enemies/enemy_knucklebone.gd" id="2_y8wtm"]
 [ext_resource type="Texture2D" uid="uid://dvkfbtuh6ni0b" path="res://assets/entities/enemies/knucklebone.png" id="3_5ugqd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ugqd"]
+size = Vector2(6, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ttuw2"]
+size = Vector2(6, 12)
 
 [node name="EnemyKnucklebone" instance=ExtResource("1_wokti")]
 script = ExtResource("2_y8wtm")
@@ -11,6 +17,10 @@ facing = Vector2(-1, 0)
 
 [node name="CollisionBox" parent="." index="0"]
 position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_5ugqd")
+
+[node name="HitBox" parent="HitArea" index="0"]
+shape = SubResource("RectangleShape2D_ttuw2")
 
 [node name="Sprite2D" parent="." index="2"]
 scale = Vector2(-1, 1)

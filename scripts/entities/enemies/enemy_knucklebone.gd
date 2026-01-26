@@ -2,10 +2,6 @@ class_name EnemyKnucklebone
 extends Enemy
 
 
-# PRELOADED SCENES
-const BulletScene = preload("res://scenes/entities/enemy_bullet.tscn")
-
-
 const BASE_SPEED = 80
 const SHOOT_THRESHOLD = 25
 var stopped = false
@@ -13,12 +9,18 @@ var stopped = false
 
 func internal_routine():
 	if not stopped:
-		if (position.distance_to(target.position) <= SHOOT_THRESHOLD):
-			velocity = Vector2.ZERO
+		set_movement_target(target.global_position)
+		var next_path_position = $NavigationAgent2D.get_next_path_position()
+		
+		var path_length = $NavigationAgent2D.get_path_length()
+		if path_length <= SHOOT_THRESHOLD and path_length != 0:
+			halt()
 			stopped = true
 			$ShootTimer.start()
 		else:
-			velocity = position.direction_to(target.position) * BASE_SPEED
+			update_facing(global_position.direction_to(next_path_position))
+			var new_velocity = facing * BASE_SPEED
+			$NavigationAgent2D.velocity = new_velocity
 
 
 func shoot():
