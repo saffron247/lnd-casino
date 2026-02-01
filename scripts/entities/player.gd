@@ -3,6 +3,11 @@ extends CharacterBody2D
 ## The player-controlled character.
 
 
+# SIGNALS
+signal health_updated(new_health: int, max_health: int)
+signal ammo_updated(new_ammo: int)
+
+
 # ENUMS
 ## State machine enum.
 enum State {
@@ -19,6 +24,9 @@ const BulletScn = preload("res://scenes/entities/player_bullet.tscn")
 # VARIABLES
 var state := State.FREE  ## Current state.
 var base_speed = 150  ## Base movement speed.
+var max_health = 10  ## Maximum health.
+var health = max_health  ## Current health.
+var is_invincible = false  ## True if the player can't take damage.
 var max_ammo = 6  ## Maximum ammo.
 var ammo = max_ammo  ## Current ammo.
 @onready var screen_size := get_viewport_rect().size  ## Screen size.
@@ -28,6 +36,9 @@ var ammo = max_ammo  ## Current ammo.
 func _ready() -> void:
 	# Sets up resize signal
 	get_tree().get_root().size_changed.connect(resize)
+	
+	health_updated.emit(max_health, max_health)
+	ammo_updated.emit(max_ammo)
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -78,11 +89,13 @@ func shoot() -> void:
 	add_sibling(bullet)
 	
 	ammo -= 1
+	ammo_updated.emit(ammo)
 
 
 ## Reloads ammo to max.
 func reload() -> void:
 	ammo = max_ammo
+	ammo_updated.emit(ammo)
 	update_state(State.FREE)
 
 
@@ -96,3 +109,22 @@ func _on_shoot_timer_timeout() -> void:
 
 func _on_reload_timer_timeout() -> void:
 	reload()
+
+
+func _on_hit_area_area_entered(area: Area2D) -> void:
+	if area is EnemyBullet:
+		area.queue_free()
+		if not is_invincible:
+			health -= 1
+			if health < 1:
+				pass
+			else:
+				is_invincible = true
+				health_updated.emit(health, max_health)
+				$Sprite2D.region_rect.position.y = $Sprite2D.region_rect.size.y
+				$HitTimer.start()
+
+
+func _on_hit_timer_timeout() -> void:
+	is_invincible = false
+	$Sprite2D.region_rect.position.y = 0

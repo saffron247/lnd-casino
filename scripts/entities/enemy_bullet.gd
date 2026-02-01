@@ -19,7 +19,3 @@ func _physics_process(delta):
 func _on_body_entered(body):
 	if not (body is Enemy):
 		queue_free()
-
-
-func _on_area_entered(_area):
-	queue_free()

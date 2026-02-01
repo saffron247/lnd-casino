@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch6nkbe1al2lb"]
+[gd_scene format=3 uid="uid://ch6nkbe1al2lb"]
 
 [ext_resource type="Script" uid="uid://dkmr18hrhbso0" path="res://scripts/entities/player.gd" id="1_08t41"]
 [ext_resource type="Texture2D" uid="uid://1etfj2ldca6g" path="res://assets/entities/player.png" id="1_ucweq"]
@@ -9,38 +9,44 @@ size = Vector2(6, 6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ie0h"]
 size = Vector2(6, 12)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1905243164]
 collision_layer = 2
 collision_mask = 9
 motion_mode = 1
 script = ExtResource("1_08t41")
 
-[node name="CollisionBox" type="CollisionShape2D" parent="."]
+[node name="CollisionBox" type="CollisionShape2D" parent="." unique_id=5966260]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_08t41")
 
-[node name="HitArea" type="Area2D" parent="."]
+[node name="HitArea" type="Area2D" parent="." unique_id=363673875]
 collision_layer = 4
 collision_mask = 64
 
-[node name="HitBox" type="CollisionShape2D" parent="HitArea"]
+[node name="HitBox" type="CollisionShape2D" parent="HitArea" unique_id=1514012917]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_1ie0h")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1783660382]
 texture = ExtResource("1_ucweq")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1798593139]
 
-[node name="ShootTimer" type="Timer" parent="."]
+[node name="ShootTimer" type="Timer" parent="." unique_id=1838522691]
 wait_time = 0.5
 one_shot = true
 
-[node name="ReloadTimer" type="Timer" parent="."]
+[node name="ReloadTimer" type="Timer" parent="." unique_id=896371145]
 wait_time = 0.75
 one_shot = true
 
+[node name="HitTimer" type="Timer" parent="." unique_id=1178337793]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]
 [connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
