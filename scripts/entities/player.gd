@@ -4,6 +4,7 @@ extends CharacterBody2D
 
 
 # SIGNALS
+signal game_over()
 signal health_updated(new_health: int, max_health: int)
 signal ammo_updated(new_ammo: int)
 
@@ -24,7 +25,7 @@ const BulletScn = preload("res://scenes/entities/player_bullet.tscn")
 # VARIABLES
 var state := State.FREE  ## Current state.
 var base_speed = 150  ## Base movement speed.
-var max_health = 10  ## Maximum health.
+var max_health = 1  ## Maximum health.
 var health = max_health  ## Current health.
 var is_invincible = false  ## True if the player can't take damage.
 var max_ammo = 6  ## Maximum ammo.
@@ -117,7 +118,7 @@ func _on_hit_area_area_entered(area: Area2D) -> void:
 		if not is_invincible:
 			health -= 1
 			if health < 1:
-				pass
+				game_over.emit()
 			else:
 				is_invincible = true
 				health_updated.emit(health, max_health)

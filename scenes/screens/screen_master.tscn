@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cvvt0da4cw2xj"]
+
+[ext_resource type="Script" uid="uid://dk2dpidbvciob" path="res://scripts/screens/screen_master.gd" id="1_fdbtp"]
+
+[node name="ScreenMaster" type="Node" unique_id=1514860700]
+script = ExtResource("1_fdbtp")

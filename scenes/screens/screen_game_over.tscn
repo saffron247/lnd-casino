@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://d4mad07543cak"]
+
+[ext_resource type="Script" uid="uid://yymf70hjtf7b" path="res://scripts/screens/screen_game_over.gd" id="1_0i3g3"]
+
+[node name="ScreenGameOver" type="Node" unique_id=909108546]
+script = ExtResource("1_0i3g3")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=862142027]
+offset_right = 480.0
+offset_bottom = 272.0
+color = Color(0.093160845, 0.093160845, 0.09316083, 1)
+
+[node name="Label" type="Label" parent="." unique_id=1033378314]
+offset_left = 184.0
+offset_top = 48.0
+offset_right = 296.0
+offset_bottom = 71.0
+text = "Game over!"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="." unique_id=1361883785]
+modulate = Color(1, 0.44705883, 0.45882353, 1)
+offset_left = 208.0
+offset_top = 184.0
+offset_right = 273.0
+offset_bottom = 215.0
+text = "Restart"
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

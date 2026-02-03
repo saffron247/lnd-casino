@@ -1,10 +1,12 @@
 [gd_scene format=4 uid="uid://df6ynq6mlrhst"]
 
+[ext_resource type="Script" uid="uid://ba33nms425f76" path="res://scripts/screens/screen_game.gd" id="1_3nvkr"]
 [ext_resource type="PackedScene" uid="uid://ch6nkbe1al2lb" path="res://scenes/entities/player.tscn" id="1_lr4bj"]
 [ext_resource type="Texture2D" uid="uid://cv3jcrq53jdtn" path="res://assets/tilesets/tiles_casino.png" id="1_nkoa8"]
 [ext_resource type="PackedScene" uid="uid://ib5dvjc06o27" path="res://scenes/entities/enemies/enemy_crapshoot.tscn" id="3_afsak"]
 [ext_resource type="PackedScene" uid="uid://d0g6xyxi5pnmj" path="res://scenes/gui/cursor_sprite.tscn" id="3_qwan3"]
 [ext_resource type="Script" uid="uid://b1c53rigrkesb" path="res://scripts/gui/hud.gd" id="4_8qaev"]
+[ext_resource type="PackedScene" uid="uid://bggsjubo4gbsg" path="res://scenes/gui/pause_menu.tscn" id="7_t1mv0"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qwan3"]
 vertices = PackedVector2Array(98, 98, -98, 98, -98, -98, 98, -98)
@@ -41,8 +43,11 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_lr4bj")
 
 [node name="ScreenGame" type="Node" unique_id=54031846]
+process_mode = 3
+script = ExtResource("1_3nvkr")
 
 [node name="World" type="Node2D" parent="." unique_id=669172211]
+process_mode = 1
 y_sort_enabled = true
 
 [node name="Player" parent="World" unique_id=499377368 instance=ExtResource("1_lr4bj")]
@@ -80,5 +85,9 @@ offset_right = 105.0
 offset_bottom = 55.0
 text = "OOOOOO "
 
+[node name="PauseMenu" parent="HUD" unique_id=1588935651 instance=ExtResource("7_t1mv0")]
+visible = false
+
 [connection signal="ammo_updated" from="World/Player" to="HUD" method="_on_player_ammo_updated"]
+[connection signal="game_over" from="World/Player" to="." method="_on_player_game_over"]
 [connection signal="health_updated" from="World/Player" to="HUD" method="_on_player_health_updated"]
