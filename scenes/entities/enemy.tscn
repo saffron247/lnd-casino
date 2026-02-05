@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgpqdl4egayjr"]
+[gd_scene format=3 uid="uid://dgpqdl4egayjr"]
 
 [ext_resource type="Script" uid="uid://8ktjscpgv403" path="res://scripts/entities/enemy.gd" id="1_d7j71"]
 
@@ -6,36 +6,36 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d7j71"]
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" unique_id=1306618142]
 collision_layer = 8
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_d7j71")
 
-[node name="CollisionBox" type="CollisionShape2D" parent="."]
+[node name="CollisionBox" type="CollisionShape2D" parent="." unique_id=342833276]
 shape = SubResource("RectangleShape2D_67neu")
 
-[node name="HitArea" type="Area2D" parent="."]
+[node name="HitArea" type="Area2D" parent="." unique_id=1242572422]
 collision_layer = 16
 collision_mask = 32
 
-[node name="HitBox" type="CollisionShape2D" parent="HitArea"]
+[node name="HitBox" type="CollisionShape2D" parent="HitArea" unique_id=1036649195]
 shape = SubResource("RectangleShape2D_d7j71")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1316706730]
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1269056561]
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=713253572]
 path_desired_distance = 4.0
 target_desired_distance = 4.0
 path_max_distance = 10.0
 avoidance_enabled = true
 max_speed = 500.0
 
-[node name="HitTimer" type="Timer" parent="."]
+[node name="HitTimer" type="Timer" parent="." unique_id=1782367972]
 wait_time = 0.2
 one_shot = true
 

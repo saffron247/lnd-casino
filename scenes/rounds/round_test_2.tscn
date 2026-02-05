@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dtswihgbn0jcv"]
+
+[ext_resource type="PackedScene" uid="uid://b6ndk6vt3aqvc" path="res://scenes/rounds/round.tscn" id="1_27c5i"]
+[ext_resource type="PackedScene" uid="uid://c7rlxblqsi8hf" path="res://scenes/rounds/spawn_enemy.tscn" id="2_t3rh2"]
+[ext_resource type="PackedScene" uid="uid://dcnfv12cv6o7p" path="res://scenes/entities/enemies/enemy_knucklebone.tscn" id="3_nvjjf"]
+
+[node name="RoundTest2" unique_id=781493398 instance=ExtResource("1_27c5i")]
+
+[node name="SpawnEnemy" parent="." index="1" unique_id=420299124 instance=ExtResource("2_t3rh2")]
+position = Vector2(-240, -128)
+enemy_scene = ExtResource("3_nvjjf")
+
+[node name="SpawnEnemy2" parent="." index="2" unique_id=39085222 instance=ExtResource("2_t3rh2")]
+position = Vector2(240, 128)
+enemy_scene = ExtResource("3_nvjjf")

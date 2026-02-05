@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c7rlxblqsi8hf"]
+
+[ext_resource type="Texture2D" uid="uid://lvsq0sjpohlt" path="res://assets/gui/enemy_spawn.png" id="1_kx6k3"]
+[ext_resource type="Script" uid="uid://nb1a0ijx2kj4" path="res://scripts/rounds/spawn_enemy.gd" id="2_1vv1f"]
+
+[node name="SpawnEnemy" type="Sprite2D" unique_id=420299124]
+texture = ExtResource("1_kx6k3")
+offset = Vector2(0.5, 0.5)
+script = ExtResource("2_1vv1f")

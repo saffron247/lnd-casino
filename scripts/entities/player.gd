@@ -25,7 +25,7 @@ const BulletScn = preload("res://scenes/entities/player_bullet.tscn")
 # VARIABLES
 var state := State.FREE  ## Current state.
 var base_speed = 150  ## Base movement speed.
-var max_health = 1  ## Maximum health.
+var max_health = 10  ## Maximum health.
 var health = max_health  ## Current health.
 var is_invincible = false  ## True if the player can't take damage.
 var max_ammo = 6  ## Maximum ammo.

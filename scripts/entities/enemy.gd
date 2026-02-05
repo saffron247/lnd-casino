@@ -17,9 +17,7 @@ var first_frame := true  ## True if it's the first frame (for Navigation).
 
 # BUILT-IN VIRTUAL METHODS
 func _ready():
-	# Temporary; ideally target should be assigned by main/world/level
-	# initialization
-	target = get_node("../../Player")
+	target = get_parent().player
 	
 	# Make sure to not await during _ready.
 	call_deferred("actor_setup")
@@ -51,6 +49,9 @@ func _physics_process(_delta):
 
 # ACTION METHODS
 func die():
+	var parent = get_parent()
+	if parent is Round:
+		parent.on_enemy_dead()
 	queue_free()
 
 
@@ -74,7 +75,7 @@ func update_facing(new_facing: Vector2):
 		sprite_angle = abs(velocity.angle())
 	else:
 		sprite_angle = abs(facing.angle())
-		
+	
 	if sprite_angle > (PI / 2) + 0.01:
 		$Sprite2D.flip_h = true
 	elif sprite_angle < PI / 2 - 0.01:

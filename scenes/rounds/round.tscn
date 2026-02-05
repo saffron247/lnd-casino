@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b6ndk6vt3aqvc"]
+
+[ext_resource type="Script" uid="uid://ct5l3spm7vxcw" path="res://scripts/rounds/round.gd" id="1_ys8ab"]
+
+[node name="Round" type="Node2D" unique_id=781493398]
+script = ExtResource("1_ys8ab")
+
+[node name="SpawnWaitTimer" type="Timer" parent="." unique_id=886176010]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="SpawnWaitTimer" to="." method="_on_spawn_wait_timer_timeout"]

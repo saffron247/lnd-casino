@@ -37,10 +37,12 @@ folder_colors={
 "res://scenes/": "teal",
 "res://scenes/entities/": "yellow",
 "res://scenes/gui/": "green",
+"res://scenes/rounds/": "blue",
 "res://scenes/screens/": "purple",
 "res://scripts/": "blue",
 "res://scripts/entities/": "yellow",
 "res://scripts/gui/": "green",
+"res://scripts/rounds/": "blue",
 "res://scripts/screens/": "purple",
 "res://shaders/": "purple"
 }
