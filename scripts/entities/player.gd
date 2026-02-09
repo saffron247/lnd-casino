@@ -54,6 +54,10 @@ func _unhandled_input(event: InputEvent):
 
 
 func _physics_process(_delta):
+	# Camera handling
+	$Camera2D.offset = (get_viewport().get_mouse_position() - \
+		(screen_size / 2)) * 0.375
+	
 	if state == State.FREE and Input.is_action_pressed("shoot"):
 		shoot()
 	
