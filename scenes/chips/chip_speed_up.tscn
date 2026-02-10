@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://s2x4efby21b1"]
+
+[ext_resource type="PackedScene" uid="uid://478yoiv1ym4v" path="res://scenes/chips/chip.tscn" id="1_0utlf"]
+[ext_resource type="Script" uid="uid://duxpu2bp4ng77" path="res://scripts/chips/chip_speed_up.gd" id="2_7de3f"]
+
+[node name="ChipSpeedUp" unique_id=1764459190 instance=ExtResource("1_0utlf")]
+script = ExtResource("2_7de3f")

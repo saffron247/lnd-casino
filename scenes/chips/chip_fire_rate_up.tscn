@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://b2o4gvgtc7vmh"]
+
+[ext_resource type="PackedScene" uid="uid://478yoiv1ym4v" path="res://scenes/chips/chip.tscn" id="1_a6d4a"]
+[ext_resource type="Script" uid="uid://dnxlk8mah431f" path="res://scripts/chips/chip_fire_rate_up.gd" id="2_h5mby"]
+
+[node name="ChipFireRateUp" unique_id=1764459190 instance=ExtResource("1_a6d4a")]
+script = ExtResource("2_h5mby")

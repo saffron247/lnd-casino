@@ -18,18 +18,31 @@ enum State {
 }
 
 
+# CONSTANTS
+const TIME_BETWEEN_SHOTS = 0.5
+const BASE_SPEED = 120
+
+
 # PRELOADED SCENES
 const BulletScn = preload("res://scenes/entities/player_bullet.tscn")
 
 
 # VARIABLES
 var state := State.FREE  ## Current state.
-var base_speed = 150  ## Base movement speed.
+
 var max_health = 10  ## Maximum health.
 var health = max_health  ## Current health.
 var is_invincible = false  ## True if the player can't take damage.
 var max_ammo = 6  ## Maximum ammo.
 var ammo = max_ammo  ## Current ammo.
+
+var damage_multiplier = 1
+var fire_rate_multiplier = 1
+var speed_multiplier = 1
+
+var chip_stack := []
+var max_chips := 3
+
 @onready var screen_size := get_viewport_rect().size  ## Screen size.
 
 
@@ -40,6 +53,11 @@ func _ready() -> void:
 	
 	health_updated.emit(max_health, max_health)
 	ammo_updated.emit(max_ammo)
+	
+	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
+	for i in range(0, 3): # TEMP
+		var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+		add_chip_to_stack(chip_speed_up) # TEMP
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -62,7 +80,7 @@ func _physics_process(_delta):
 		shoot()
 	
 	var input_direction = Input.get_vector("left", "right", "up", "down")
-	velocity = input_direction * base_speed
+	velocity = input_direction.normalized() * (BASE_SPEED * speed_multiplier)
 	move_and_slide()
 
 
@@ -74,7 +92,7 @@ func update_state(new_state: State):
 	
 	match new_state:
 		State.SHOOT:
-			$ShootTimer.start()
+			$ShootTimer.start(TIME_BETWEEN_SHOTS / fire_rate_multiplier)
 		State.RELOAD:
 			$ReloadTimer.start()
 	
@@ -91,6 +109,7 @@ func shoot() -> void:
 	var bullet := BulletScn.instantiate()
 	bullet.direction = attack_direction
 	bullet.position = position + (attack_direction * 10.0)
+	bullet.damage *= damage_multiplier
 	add_sibling(bullet)
 	
 	ammo -= 1
@@ -102,6 +121,13 @@ func reload() -> void:
 	ammo = max_ammo
 	ammo_updated.emit(ammo)
 	update_state(State.FREE)
+
+
+# CHIP MANAGEMENT METHODS
+func add_chip_to_stack(chip: Chip):
+	chip.player = self
+	chip_stack.push_front(chip)
+	$ActiveChipStack.add_child(chip) # TEMP
 
 
 # SIGNALS
