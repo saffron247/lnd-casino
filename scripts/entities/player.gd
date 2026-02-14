@@ -7,6 +7,7 @@ extends CharacterBody2D
 signal game_over()
 signal health_updated(new_health: int, max_health: int)
 signal ammo_updated(new_ammo: int)
+signal stack_updated(stack: Array, active_start: int, active_end: int)
 
 
 # ENUMS
@@ -54,10 +55,18 @@ func _ready() -> void:
 	health_updated.emit(max_health, max_health)
 	ammo_updated.emit(max_ammo)
 	
+	# TEMPORARY: Add chips to player
 	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
-	for i in range(0, 3): # TEMP
-		var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-		add_chip_to_stack(chip_speed_up) # TEMP
+	var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_speed_up) # TEMP
+	
+	var ChipFireRateScn = load("res://scenes/chips/chip_fire_rate_up.tscn") # TEMP
+	var chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_fire_rate_up) # TEMP
+	
+	var ChipDamageScn = load("res://scenes/chips/chip_damage_up.tscn") # TEMP
+	var chip_damage_up = ChipDamageScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_damage_up) # TEMP
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -126,7 +135,8 @@ func reload() -> void:
 # CHIP MANAGEMENT METHODS
 func add_chip_to_stack(chip: Chip):
 	chip.player = self
-	chip_stack.push_front(chip)
+	chip_stack.push_back(chip)
+	stack_updated.emit(chip_stack, 0, max_chips)
 	$ActiveChipStack.add_child(chip) # TEMP
 
 

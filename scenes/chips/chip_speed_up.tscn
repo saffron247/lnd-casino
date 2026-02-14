@@ -2,6 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://478yoiv1ym4v" path="res://scenes/chips/chip.tscn" id="1_0utlf"]
 [ext_resource type="Script" uid="uid://duxpu2bp4ng77" path="res://scripts/chips/chip_speed_up.gd" id="2_7de3f"]
+[ext_resource type="Texture2D" uid="uid://c3qdjrigwbg34" path="res://assets/chips/chip_speed_up.png" id="3_grqkp"]
+[ext_resource type="Texture2D" uid="uid://ftsfs8xysus6" path="res://assets/chips/flat_chip_speed_up.png" id="4_ldbn7"]
 
 [node name="ChipSpeedUp" unique_id=1764459190 instance=ExtResource("1_0utlf")]
 script = ExtResource("2_7de3f")
+full_texture = ExtResource("3_grqkp")
+stack_texture = ExtResource("4_ldbn7")

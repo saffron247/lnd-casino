@@ -13,15 +13,15 @@ size = Vector2(12, 14)
 [node name="EnemyCrapshoot" unique_id=629152574 instance=ExtResource("1_6rjfe")]
 script = ExtResource("2_sbfi8")
 
-[node name="CollisionBox" parent="." index="0"]
+[node name="CollisionBox" parent="." index="0" unique_id=342833276]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_x5hl5")
 
-[node name="HitBox" parent="HitArea" index="0"]
+[node name="HitBox" parent="HitArea" parent_id_path=PackedInt32Array(1242572422) index="0" unique_id=1036649195]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_1h4fm")
 
-[node name="Sprite2D" parent="." index="2"]
+[node name="Sprite2D" parent="." index="2" unique_id=1316706730]
 scale = Vector2(-1, 1)
 texture = ExtResource("3_x5hl5")
 region_rect = Rect2(0, 0, 20, 20)

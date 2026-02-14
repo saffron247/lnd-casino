@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://d0g6xyxi5pnmj" path="res://scenes/gui/cursor_sprite.tscn" id="3_qwan3"]
 [ext_resource type="Script" uid="uid://b1c53rigrkesb" path="res://scripts/gui/hud.gd" id="4_8qaev"]
 [ext_resource type="PackedScene" uid="uid://bggsjubo4gbsg" path="res://scenes/gui/pause_menu.tscn" id="7_t1mv0"]
+[ext_resource type="Texture2D" uid="uid://opkvhm7fvsk3" path="res://assets/gui/chip_stack.png" id="7_vaw4v"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qwan3"]
 vertices = PackedVector2Array(274, 162, -274, 162, -274, -162, 274, -162)
@@ -93,8 +94,43 @@ text = "Round: 0 "
 label_settings = SubResource("LabelSettings_3nvkr")
 horizontal_alignment = 2
 
+[node name="ChipStack" type="Control" parent="HUD" unique_id=1185774795]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 198.0
+offset_right = 48.0
+offset_bottom = 238.0
+
+[node name="Texture" type="TextureRect" parent="HUD/ChipStack" unique_id=221581450]
+z_index = 1
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 64.0
+pivot_offset = Vector2(0, 64)
+texture = ExtResource("7_vaw4v")
+stretch_mode = 2
+
+[node name="Container" type="VBoxContainer" parent="HUD/ChipStack" unique_id=551122278]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 28.0
+offset_bottom = 62.0
+pivot_offset = Vector2(0, 64)
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="ActiveChips" type="VBoxContainer" parent="HUD" unique_id=1242377256]
+offset_left = 40.0
+offset_top = 190.0
+offset_right = 64.0
+offset_bottom = 262.0
+theme_override_constants/separation = -12
+alignment = 2
+
 [node name="PauseMenu" parent="HUD" unique_id=1588935651 instance=ExtResource("7_t1mv0")]
 visible = false
+z_index = 2
 
 [node name="NextRoundTimer" type="Timer" parent="." unique_id=54988864]
 one_shot = true
@@ -102,4 +138,5 @@ one_shot = true
 [connection signal="ammo_updated" from="World/Player" to="HUD" method="_on_player_ammo_updated"]
 [connection signal="game_over" from="World/Player" to="." method="_on_player_game_over"]
 [connection signal="health_updated" from="World/Player" to="HUD" method="_on_player_health_updated"]
+[connection signal="stack_updated" from="World/Player" to="HUD" method="_on_player_stack_updated"]
 [connection signal="timeout" from="NextRoundTimer" to="." method="_on_next_round_timer_timeout"]

@@ -2,6 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://478yoiv1ym4v" path="res://scenes/chips/chip.tscn" id="1_du1fb"]
 [ext_resource type="Script" uid="uid://bf16qblp1bnb6" path="res://scripts/chips/chip_damage_up.gd" id="2_4golu"]
+[ext_resource type="Texture2D" uid="uid://beifdqurg3t7f" path="res://assets/chips/chip_damage_up.png" id="3_i30i2"]
+[ext_resource type="Texture2D" uid="uid://wprs0gqadbfr" path="res://assets/chips/flat_chip_damage_up.png" id="4_wj2u1"]
 
 [node name="ChipDamageUp" unique_id=1764459190 instance=ExtResource("1_du1fb")]
 script = ExtResource("2_4golu")
+full_texture = ExtResource("3_i30i2")
+stack_texture = ExtResource("4_wj2u1")
