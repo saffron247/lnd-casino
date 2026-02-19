@@ -42,7 +42,10 @@ var fire_rate_multiplier = 1
 var speed_multiplier = 1
 
 var chip_stack := []
-var max_chips := 3
+var max_chips := 10
+var max_active_chips := 3
+var active_chip_start := 0
+var active_chip_end := 0
 
 @onready var screen_size := get_viewport_rect().size  ## Screen size.
 
@@ -56,17 +59,35 @@ func _ready() -> void:
 	ammo_updated.emit(max_ammo)
 	
 	# TEMPORARY: Add chips to player
-	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
-	var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_speed_up) # TEMP
-	
 	var ChipFireRateScn = load("res://scenes/chips/chip_fire_rate_up.tscn") # TEMP
 	var chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
 	add_chip_to_stack(chip_fire_rate_up) # TEMP
 	
-	var ChipDamageScn = load("res://scenes/chips/chip_damage_up.tscn") # TEMP
-	var chip_damage_up = ChipDamageScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_damage_up) # TEMP
+	chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_fire_rate_up) # TEMP
+	
+	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
+	var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_speed_up) # TEMP
+	
+	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	#add_chip_to_stack(chip_speed_up) # TEMP
+	#
+	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	#add_chip_to_stack(chip_speed_up) # TEMP
+	#
+	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	#add_chip_to_stack(chip_speed_up) # TEMP
+	#
+	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	#add_chip_to_stack(chip_speed_up) # TEMP
+	
+	#var ChipDamageScn = load("res://scenes/chips/chip_damage_up.tscn") # TEMP
+	#var chip_damage_up = ChipDamageScn.instantiate(); # TEMP
+	#add_chip_to_stack(chip_damage_up) # TEMP
+	
+	chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
+	add_chip_to_stack(chip_speed_up) # TEMP
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -127,6 +148,14 @@ func shoot() -> void:
 
 ## Reloads ammo to max.
 func reload() -> void:
+	if active_chip_start == 0 and active_chip_end == 0:
+		health = max(health - 1, 1)
+		is_invincible = true
+		health_updated.emit(health, max_health)
+		$Sprite2D.region_rect.position.y = $Sprite2D.region_rect.size.y
+		$HitTimer.start()
+	else:
+		pop_chip_from_active_stack()
 	ammo = max_ammo
 	ammo_updated.emit(ammo)
 	update_state(State.FREE)
@@ -136,8 +165,41 @@ func reload() -> void:
 func add_chip_to_stack(chip: Chip):
 	chip.player = self
 	chip_stack.push_back(chip)
-	stack_updated.emit(chip_stack, 0, max_chips)
-	$ActiveChipStack.add_child(chip) # TEMP
+	active_chip_end += 1
+	active_chip_start = max(0, active_chip_end - max_active_chips)
+	stack_updated.emit(chip_stack, active_chip_start, active_chip_end)
+
+
+func activate_active_chips():
+	for i in range(active_chip_start, active_chip_end):
+		$ActiveChipStack.add_child(chip_stack[i])
+		$ActiveChipStack.move_child(chip_stack[i], 0)
+	
+	stack_updated.emit(chip_stack, active_chip_start, active_chip_end)
+
+
+func pop_chip_from_active_stack():
+	$ActiveChipStack.remove_child(chip_stack[active_chip_end - 1])
+	
+	if active_chip_start - 1 >= 0:
+		active_chip_start -= 1
+		$ActiveChipStack.add_child(chip_stack[active_chip_start])
+		$ActiveChipStack.move_child(chip_stack[active_chip_start], 0)
+	active_chip_end = max(active_chip_end - 1, 0)
+	
+	stack_updated.emit(chip_stack, active_chip_start, active_chip_end)
+
+
+# PSEUDO-SIGNALS
+func on_new_round() -> void:
+	ammo = max_ammo
+	ammo_updated.emit(ammo)
+	
+	for child in $ActiveChipStack.get_children():
+		$ActiveChipStack.remove_child(child)
+	active_chip_end = len(chip_stack)
+	active_chip_start = active_chip_end - max_active_chips
+	activate_active_chips()
 
 
 # SIGNALS
@@ -169,3 +231,7 @@ func _on_hit_area_area_entered(area: Area2D) -> void:
 func _on_hit_timer_timeout() -> void:
 	is_invincible = false
 	$Sprite2D.region_rect.position.y = 0
+
+
+func _on_round_over() -> void:
+	$ReloadTimer.stop()

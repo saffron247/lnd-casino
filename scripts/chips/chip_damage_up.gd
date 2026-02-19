@@ -1,11 +1,11 @@
 extends Chip
 
 
-func _ready() -> void:
+func _on_tree_entered() -> void:
 	super()
 	
 	player.damage_multiplier += 0.2
 
 
-func on_removal() -> void:
+func _on_tree_exiting() -> void:
 	player.damage_multiplier -= 0.2

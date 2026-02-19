@@ -44,9 +44,12 @@ func unpause() -> void:
 
 
 func start_next_round() -> void:
+	$HUD/AllInLabel.hide()
+	$World/Player.on_new_round()
 	current_round = round_array[(round_number - 1) % len(round_array)].instantiate()
 	current_round.player = $World/Player
 	current_round.round_over.connect(_on_round_over)
+	current_round.round_over.connect($World/Player._on_round_over)
 	$World/Arena.add_child(current_round)
 	$HUD/RoundLabel.text = "Round: " + str(round_number) + " "
 

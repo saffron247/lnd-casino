@@ -4,3 +4,6 @@
 
 [node name="Chip" type="Node2D" unique_id=1764459190]
 script = ExtResource("1_pg7l1")
+
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
+[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cv3jcrq53jdtn" path="res://assets/tilesets/tiles_casino.png" id="1_nkoa8"]
 [ext_resource type="PackedScene" uid="uid://d0g6xyxi5pnmj" path="res://scenes/gui/cursor_sprite.tscn" id="3_qwan3"]
 [ext_resource type="Script" uid="uid://b1c53rigrkesb" path="res://scripts/gui/hud.gd" id="4_8qaev"]
+[ext_resource type="PackedScene" uid="uid://b6rosba8uyuww" path="res://scenes/gui/stack_slot.tscn" id="7_gj5na"]
 [ext_resource type="PackedScene" uid="uid://bggsjubo4gbsg" path="res://scenes/gui/pause_menu.tscn" id="7_t1mv0"]
 [ext_resource type="Texture2D" uid="uid://opkvhm7fvsk3" path="res://assets/gui/chip_stack.png" id="7_vaw4v"]
 
@@ -43,6 +44,9 @@ physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_lr4bj")
 
 [sub_resource type="LabelSettings" id="LabelSettings_3nvkr"]
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vaw4v"]
 shadow_color = Color(0, 0, 0, 1)
 
 [node name="ScreenGame" type="Node" unique_id=54031846]
@@ -94,6 +98,15 @@ text = "Round: 0 "
 label_settings = SubResource("LabelSettings_3nvkr")
 horizontal_alignment = 2
 
+[node name="AllInLabel" type="Label" parent="HUD" unique_id=434312745]
+visible = false
+offset_left = 136.0
+offset_top = 8.0
+offset_right = 205.0
+offset_bottom = 31.0
+text = "- ALL IN -"
+label_settings = SubResource("LabelSettings_vaw4v")
+
 [node name="ChipStack" type="Control" parent="HUD" unique_id=1185774795]
 layout_mode = 3
 anchors_preset = 0
@@ -120,6 +133,36 @@ pivot_offset = Vector2(0, 64)
 theme_override_constants/separation = 0
 alignment = 2
 
+[node name="StackSlot" parent="HUD/ChipStack/Container" unique_id=96754425 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot2" parent="HUD/ChipStack/Container" unique_id=550692311 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot3" parent="HUD/ChipStack/Container" unique_id=290097334 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot4" parent="HUD/ChipStack/Container" unique_id=2067244356 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot5" parent="HUD/ChipStack/Container" unique_id=468119333 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot6" parent="HUD/ChipStack/Container" unique_id=1255327099 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot7" parent="HUD/ChipStack/Container" unique_id=1741316593 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot8" parent="HUD/ChipStack/Container" unique_id=1512718353 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot9" parent="HUD/ChipStack/Container" unique_id=1203448196 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
+[node name="StackSlot10" parent="HUD/ChipStack/Container" unique_id=257277150 instance=ExtResource("7_gj5na")]
+layout_mode = 2
+
 [node name="ActiveChips" type="VBoxContainer" parent="HUD" unique_id=1242377256]
 offset_left = 40.0
 offset_top = 190.0
@@ -127,6 +170,18 @@ offset_right = 64.0
 offset_bottom = 262.0
 theme_override_constants/separation = -12
 alignment = 2
+
+[node name="ActiveSlot" type="TextureRect" parent="HUD/ActiveChips" unique_id=1633398007]
+z_index = 3
+layout_mode = 2
+
+[node name="ActiveSlot2" type="TextureRect" parent="HUD/ActiveChips" unique_id=1513025564]
+z_index = 2
+layout_mode = 2
+
+[node name="ActiveSlot3" type="TextureRect" parent="HUD/ActiveChips" unique_id=1866598598]
+z_index = 1
+layout_mode = 2
 
 [node name="PauseMenu" parent="HUD" unique_id=1588935651 instance=ExtResource("7_t1mv0")]
 visible = false
