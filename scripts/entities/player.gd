@@ -41,7 +41,7 @@ var damage_multiplier = 1
 var fire_rate_multiplier = 1
 var speed_multiplier = 1
 
-var chip_stack := []
+var chip_stack := []  ## Stack of Chips. Index 0 is the bottom of the stack.
 var max_chips := 10
 var max_active_chips := 3
 var active_chip_start := 0
@@ -61,33 +61,33 @@ func _ready() -> void:
 	# TEMPORARY: Add chips to player
 	var ChipFireRateScn = load("res://scenes/chips/chip_fire_rate_up.tscn") # TEMP
 	var chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_fire_rate_up) # TEMP
+	push_chip_to_stack(chip_fire_rate_up) # TEMP
 	
 	chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_fire_rate_up) # TEMP
+	push_chip_to_stack(chip_fire_rate_up) # TEMP
 	
 	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
 	var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_speed_up) # TEMP
+	push_chip_to_stack(chip_speed_up) # TEMP
 	
 	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#add_chip_to_stack(chip_speed_up) # TEMP
+	#push_chip_to_stack(chip_speed_up) # TEMP
 	#
 	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#add_chip_to_stack(chip_speed_up) # TEMP
+	#push_chip_to_stack(chip_speed_up) # TEMP
 	#
 	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#add_chip_to_stack(chip_speed_up) # TEMP
+	#push_chip_to_stack(chip_speed_up) # TEMP
 	#
 	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#add_chip_to_stack(chip_speed_up) # TEMP
+	#push_chip_to_stack(chip_speed_up) # TEMP
 	
 	#var ChipDamageScn = load("res://scenes/chips/chip_damage_up.tscn") # TEMP
 	#var chip_damage_up = ChipDamageScn.instantiate(); # TEMP
-	#add_chip_to_stack(chip_damage_up) # TEMP
+	#push_chip_to_stack(chip_damage_up) # TEMP
 	
 	chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	add_chip_to_stack(chip_speed_up) # TEMP
+	push_chip_to_stack(chip_speed_up) # TEMP
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -162,7 +162,7 @@ func reload() -> void:
 
 
 # CHIP MANAGEMENT METHODS
-func add_chip_to_stack(chip: Chip):
+func push_chip_to_stack(chip: Chip):
 	chip.player = self
 	chip_stack.push_back(chip)
 	active_chip_end += 1
