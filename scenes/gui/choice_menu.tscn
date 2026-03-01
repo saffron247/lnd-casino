@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://c1agk7k13u6np"]
+
+[ext_resource type="Script" uid="uid://e6tj84qk5c6j" path="res://scripts/gui/choice_menu.gd" id="1_lli5r"]
+[ext_resource type="PackedScene" uid="uid://dx16wtws7qpli" path="res://scenes/gui/deal_choice.tscn" id="2_kvf6a"]
+[ext_resource type="PackedScene" uid="uid://db1i8x24gwlyb" path="res://scenes/chips/chip_damage_up.tscn" id="3_dvqst"]
+[ext_resource type="PackedScene" uid="uid://b2o4gvgtc7vmh" path="res://scenes/chips/chip_fire_rate_up.tscn" id="4_hx8ie"]
+[ext_resource type="PackedScene" uid="uid://s2x4efby21b1" path="res://scenes/chips/chip_speed_up.tscn" id="5_5a5l1"]
+
+[node name="ChoiceMenu" type="Control" unique_id=1239083834]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_lli5r")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=700023818]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 56.0
+offset_right = 416.0
+offset_bottom = 216.0
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="DealChoice" parent="HBoxContainer" unique_id=422250653 instance=ExtResource("2_kvf6a")]
+layout_mode = 2
+chip = ExtResource("3_dvqst")
+
+[node name="DealChoice2" parent="HBoxContainer" unique_id=138349780 instance=ExtResource("2_kvf6a")]
+layout_mode = 2
+chip = ExtResource("4_hx8ie")
+
+[node name="DealChoice3" parent="HBoxContainer" unique_id=2067369246 instance=ExtResource("2_kvf6a")]
+layout_mode = 2
+chip = ExtResource("5_5a5l1")
+
+[connection signal="choice_selected" from="HBoxContainer/DealChoice" to="." method="_on_deal_choice_choice_selected"]
+[connection signal="choice_selected" from="HBoxContainer/DealChoice2" to="." method="_on_deal_choice_choice_selected"]
+[connection signal="choice_selected" from="HBoxContainer/DealChoice3" to="." method="_on_deal_choice_choice_selected"]

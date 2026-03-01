@@ -13,12 +13,18 @@ var round_array := [
 var round_number := 1  ## Current Round number.
 var current_round : Round  ## Reference to the current Round.
 
+var in_round := false  ## True if the game is in a round.
 var paused := false  ## True if the game is paused.
+var choice_mode := false  ## True if the game is in the choice menu.
+var choice_menu : ChoiceMenu
 
 
 # BUILT-IN VIRTUAL METHODS
 func _ready():
 	master = get_parent()
+	choice_menu = $HUD.get_node("ChoiceMenu")
+	$HUD.remove_child(choice_menu)
+	$World/Player.on_round_end()
 	start_next_round()
 
 
@@ -43,9 +49,14 @@ func unpause() -> void:
 	paused = false
 
 
-func start_next_round() -> void:
+func end_round() -> void:
+	in_round = false
 	$HUD/AllInLabel.hide()
-	$World/Player.on_new_round()
+	$World/Player.on_round_end()
+
+
+func start_next_round() -> void:
+	in_round = true
 	current_round = round_array[(round_number - 1) % len(round_array)].instantiate()
 	current_round.player = $World/Player
 	current_round.round_over.connect(_on_round_over)
@@ -60,6 +71,25 @@ func _on_player_game_over() -> void:
 
 
 func _on_round_over() -> void:
+	$EndRoundTimer.start()
+
+
+func _on_end_round_timer_timeout() -> void:
+	end_round()
+	
+	if len($World/Player.chip_stack) >= $World/Player.max_chips:
+		_on_next_round_timer_timeout()
+	else:
+		$World.process_mode = Node.PROCESS_MODE_DISABLED
+		choice_mode = true
+		$HUD.add_child(choice_menu)
+
+
+func _on_choice_menu_choice_selected(chip: Chip) -> void:
+	$HUD.remove_child(choice_menu)
+	choice_mode = false
+	$World.process_mode = Node.PROCESS_MODE_PAUSABLE
+	$World/Player.push_chip_to_stack(chip)
 	$NextRoundTimer.start()
 
 

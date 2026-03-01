@@ -30,6 +30,7 @@ const BulletScn = preload("res://scenes/entities/player_bullet.tscn")
 
 # VARIABLES
 var state := State.FREE  ## Current state.
+var screen_game : ScreenGame
 
 var max_health = 10  ## Maximum health.
 var health = max_health  ## Current health.
@@ -54,40 +55,10 @@ var active_chip_end := 0
 func _ready() -> void:
 	# Sets up resize signal
 	get_tree().get_root().size_changed.connect(resize)
+	screen_game = get_parent().get_parent()
 	
 	health_updated.emit(max_health, max_health)
 	ammo_updated.emit(max_ammo)
-	
-	# TEMPORARY: Add chips to player
-	var ChipFireRateScn = load("res://scenes/chips/chip_fire_rate_up.tscn") # TEMP
-	var chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
-	push_chip_to_stack(chip_fire_rate_up) # TEMP
-	
-	chip_fire_rate_up = ChipFireRateScn.instantiate(); # TEMP
-	push_chip_to_stack(chip_fire_rate_up) # TEMP
-	
-	var ChipSpeedScn = load("res://scenes/chips/chip_speed_up.tscn") # TEMP
-	var chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	push_chip_to_stack(chip_speed_up) # TEMP
-	
-	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#push_chip_to_stack(chip_speed_up) # TEMP
-	#
-	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#push_chip_to_stack(chip_speed_up) # TEMP
-	#
-	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#push_chip_to_stack(chip_speed_up) # TEMP
-	#
-	#chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	#push_chip_to_stack(chip_speed_up) # TEMP
-	
-	#var ChipDamageScn = load("res://scenes/chips/chip_damage_up.tscn") # TEMP
-	#var chip_damage_up = ChipDamageScn.instantiate(); # TEMP
-	#push_chip_to_stack(chip_damage_up) # TEMP
-	
-	chip_speed_up = ChipSpeedScn.instantiate(); # TEMP
-	push_chip_to_stack(chip_speed_up) # TEMP
 
 
 ## Triggers on screen resize; ensures attacks are directed correctly.
@@ -96,7 +67,7 @@ func resize() -> void:
 
 
 func _unhandled_input(event: InputEvent):
-	if state == State.FREE:
+	if state == State.FREE and screen_game.in_round:
 		if event.is_action_pressed("shoot"):
 			shoot()
 
@@ -106,7 +77,8 @@ func _physics_process(_delta):
 	$Camera2D.offset = (get_viewport().get_mouse_position() - \
 		(screen_size / 2)) * 0.375
 	
-	if state == State.FREE and Input.is_action_pressed("shoot"):
+	if state == State.FREE and Input.is_action_pressed("shoot") \
+		and screen_game.in_round:
 		shoot()
 	
 	var input_direction = Input.get_vector("left", "right", "up", "down")
@@ -167,10 +139,13 @@ func push_chip_to_stack(chip: Chip):
 	chip_stack.push_back(chip)
 	active_chip_end += 1
 	active_chip_start = max(0, active_chip_end - max_active_chips)
-	stack_updated.emit(chip_stack, active_chip_start, active_chip_end)
+	activate_active_chips()
 
 
 func activate_active_chips():
+	for child in $ActiveChipStack.get_children():
+		$ActiveChipStack.remove_child(child)
+	
 	for i in range(active_chip_start, active_chip_end):
 		$ActiveChipStack.add_child(chip_stack[i])
 		$ActiveChipStack.move_child(chip_stack[i], 0)
@@ -191,14 +166,14 @@ func pop_chip_from_active_stack():
 
 
 # PSEUDO-SIGNALS
-func on_new_round() -> void:
+func on_round_end() -> void:
+	update_state(State.FREE)
+	$ReloadTimer.stop()
 	ammo = max_ammo
 	ammo_updated.emit(ammo)
 	
-	for child in $ActiveChipStack.get_children():
-		$ActiveChipStack.remove_child(child)
 	active_chip_end = len(chip_stack)
-	active_chip_start = active_chip_end - max_active_chips
+	active_chip_start = max(0, active_chip_end - max_active_chips)
 	activate_active_chips()
 
 

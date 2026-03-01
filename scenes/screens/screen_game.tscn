@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b6rosba8uyuww" path="res://scenes/gui/stack_slot.tscn" id="7_gj5na"]
 [ext_resource type="PackedScene" uid="uid://bggsjubo4gbsg" path="res://scenes/gui/pause_menu.tscn" id="7_t1mv0"]
 [ext_resource type="Texture2D" uid="uid://opkvhm7fvsk3" path="res://assets/gui/chip_stack.png" id="7_vaw4v"]
+[ext_resource type="PackedScene" uid="uid://c1agk7k13u6np" path="res://scenes/gui/choice_menu.tscn" id="9_gj5na"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_qwan3"]
 vertices = PackedVector2Array(274, 162, -274, 162, -274, -162, 274, -162)
@@ -185,13 +186,23 @@ layout_mode = 2
 
 [node name="PauseMenu" parent="HUD" unique_id=1588935651 instance=ExtResource("7_t1mv0")]
 visible = false
-z_index = 2
+z_index = 10
+
+[node name="ChoiceMenu" parent="HUD" unique_id=1239083834 instance=ExtResource("9_gj5na")]
+process_mode = 1
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="NextRoundTimer" type="Timer" parent="." unique_id=54988864]
+one_shot = true
+
+[node name="EndRoundTimer" type="Timer" parent="." unique_id=1187148752]
 one_shot = true
 
 [connection signal="ammo_updated" from="World/Player" to="HUD" method="_on_player_ammo_updated"]
 [connection signal="game_over" from="World/Player" to="." method="_on_player_game_over"]
 [connection signal="health_updated" from="World/Player" to="HUD" method="_on_player_health_updated"]
 [connection signal="stack_updated" from="World/Player" to="HUD" method="_on_player_stack_updated"]
+[connection signal="choice_selected" from="HUD/ChoiceMenu" to="." method="_on_choice_menu_choice_selected"]
 [connection signal="timeout" from="NextRoundTimer" to="." method="_on_next_round_timer_timeout"]
+[connection signal="timeout" from="EndRoundTimer" to="." method="_on_end_round_timer_timeout"]

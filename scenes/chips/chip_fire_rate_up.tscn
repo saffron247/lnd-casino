@@ -7,5 +7,7 @@
 
 [node name="ChipFireRateUp" unique_id=1764459190 instance=ExtResource("1_a6d4a")]
 script = ExtResource("2_h5mby")
+chip_name = "Fire Rate Up"
+chip_description = "+20% Fire Rate"
 full_texture = ExtResource("3_de4dn")
 stack_texture = ExtResource("4_6w3o4")

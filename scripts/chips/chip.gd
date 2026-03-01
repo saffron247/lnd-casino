@@ -6,6 +6,8 @@ var player : Player
 var parent : Node2D
 
 
+@export var chip_name : String
+@export var chip_description : String
 @export var full_texture : Texture
 @export var stack_texture : Texture
 
